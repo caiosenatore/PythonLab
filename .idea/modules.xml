@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$USER_HOME$/Documents/Workspace/Lab/PythonLab_Project/.idea/PythonLab.iml" filepath="$USER_HOME$/Documents/Workspace/Lab/PythonLab_Project/.idea/PythonLab.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/PythonLab.iml" filepath="$PROJECT_DIR$/.idea/PythonLab.iml" />
     </modules>
   </component>
 </project>
