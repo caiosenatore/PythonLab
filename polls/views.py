@@ -1,5 +1,31 @@
-from django.http.response import HttpResponse
+from django.http.response import HttpResponseRedirect
+from django.shortcuts import render, get_object_or_404
+from django.urls.base import reverse
+from django.utils import timezone
+from django.views import generic
+
+from polls.models import Choice, Question
 
 
-def index(request):
-    return HttpResponse("Hello Word")
+class IndexView(generic.ListView):
+    def get_queryset(self):
+        return Question.objects.filter(pub_date__lte=timezone.now()).order_by('-pub_date')[:5]
+
+
+class DetailView(generic.DetailView):
+    model = Question
+
+
+def vote(request, question_id):
+    question = get_object_or_404(Question, pk=question_id)
+    try:
+        selected_choice = question.choice_set.get(pk=request.POST['choice'])
+    except(KeyError, Choice.DoesNotExist):
+        return render(request, 'polls/question_detail.html', {
+            'question': question,
+            'error_message': "You didn't select a choice"
+        })
+    else:
+        selected_choice.votes += 1
+        selected_choice.save()
+        return HttpResponseRedirect(reverse('polls:detail', args=(question_id,)))
